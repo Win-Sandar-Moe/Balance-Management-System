@@ -1,0 +1,34 @@
+package com.jdc.balance.balanceapi.model.entity.domain.business;
+
+import com.jdc.balance.balanceapi.model.entity.AbstractEntity;
+import com.jdc.balance.balanceapi.model.entity.domain.business.embeddables.EnterBy;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
+
+@Data
+@Entity
+@EqualsAndHashCode(callSuper = false)
+public class LedgerEntry extends AbstractEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @ManyToOne(optional = false)
+    private Ledger ledger;
+
+    @Column(nullable = false)
+    private LocalDate issueDate;
+
+    @OneToMany(mappedBy = "entry")
+    private List<LedgerEntryItem> items;
+
+    @Column(nullable = false)
+    private String particular;
+
+    private EnterBy enterBy;
+}
